@@ -294,23 +294,29 @@ namespace Spelling
                     {
                         case SpellType.Cloud:
                             targetActive.Damage(potency, damageTypes);
+                            ((Console)GetNode("../Console")).Print("A cloud of " + this.GenerateDescriptors(damageTypes) + "bursts into creation around you, hitting your" + targetDescriptor);
                             break;
                         case SpellType.Nova:
                             targetActive.Damage(potency, damageTypes);
+                            ((Console)GetNode("../Console")).Print("A burst of " + this.GenerateDescriptors(damageTypes) + "rushes out from your body, hitting your" + targetDescriptor);
                             break;
                         case SpellType.TargetBolt:
                             targetActive.Damage(potency, damageTypes);
+                            ((Console)GetNode("../Console")).Print("You point at your" + targetDescriptor + " and a bolt of " + this.GenerateDescriptors(damageTypes) + "flies out from your finger, hitting your" + targetDescriptor);
                             break;
                         case SpellType.TargetExplode:
                             targetActive.Damage(potency, damageTypes);
+                            ((Console)GetNode("../Console")).Print("You point at your" + targetDescriptor + " and a bead of " + this.GenerateDescriptors(damageTypes) + "flies out from your finger, blossoming into an explosion around your" + targetDescriptor);
                             break;
                         case SpellType.TargetGas:
                             targetActive.Damage(potency, damageTypes);
+                            ((Console)GetNode("../Console")).Print("You point at your" + targetDescriptor + " and a bead of " + this.GenerateDescriptors(damageTypes) + "flies out from your finger, blossoming into a cloud of gas around your" + targetDescriptor);
                             break;
                         case SpellType.TargetKill:
                             damageTypes.Clear();
                             damageTypes.Add(DamageType.Accursed); //reminder to move this to the switch case for verbs later.
                             targetActive.Damage(potency, damageTypes);
+                            ((Console)GetNode("../Console")).Print("You point at your" + targetDescriptor + " and foul vapour mixed with " + this.GenerateDescriptors(damageTypes) + "streams from your finger, reaching and grasping at your" + targetDescriptor);
                             break;
                         case SpellType.Enhance:
                             switch (aspectTarget)
