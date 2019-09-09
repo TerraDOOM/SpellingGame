@@ -192,12 +192,81 @@ namespace Spelling
 
         public string GenerateDescriptors(List<DamageType> damageTypes)
         {
-            string descriptors;
-            foreach (DamageType elem in damageTypes.Distinct())
+            string descriptors = "";
+            foreach (DamageType elem in damageTypes.Distinct().Skip(1))
             {
-				
+                switch (elem)
+                {
+                    case DamageType.Accursed:
+                        descriptors += "accursed power, ";
+                        break;
+                    case DamageType.Acid:
+                        descriptors += "acidic gas, ";
+                        break;
+                    case DamageType.Cold:
+                        descriptors += "cold vapour, ";
+                        break;
+                    case DamageType.Electricity:
+                        descriptors += "crackling air, ";
+                        break;
+                    case DamageType.Fire:
+                        descriptors += "blazing fire, ";
+                        break;
+                    case DamageType.Force:
+                        descriptors += "magical force, ";
+                        break;
+                    case DamageType.Physical:
+                        descriptors += "bludgeoning force, ";
+                        break;
+                    case DamageType.Profane:
+                        descriptors += "profane energy, ";
+                        break;
+                    case DamageType.Sacred:
+                        descriptors += "sacred energy, ";
+                        break;
+                    case DamageType.Sonic:
+                        descriptors += "booming noise, ";
+                        break;
+                    default:
+                        throw new Exception("Wtf");
+                }
             }
-			return "faggot";
+            switch (elem)
+            {
+                case DamageType.Accursed:
+                    descriptors += "and accursed power";
+                    break;
+                case DamageType.Acid:
+                    descriptors += "and acidic gas";
+                    break;
+                case DamageType.Cold:
+                    descriptors += "and cold vapour";
+                    break;
+                case DamageType.Electricity:
+                    descriptors += "and crackling air";
+                    break;
+                case DamageType.Fire:
+                    descriptors += "and blazing fire";
+                    break;
+                case DamageType.Force:
+                    descriptors += "and magical force";
+                    break;
+                case DamageType.Physical:
+                    descriptors += "and bludgeoning force";
+                    break;
+                case DamageType.Profane:
+                    descriptors += "and profane energy";
+                    break;
+                case DamageType.Sacred:
+                    descriptors += "and sacred energy";
+                    break;
+                case DamageType.Sonic:
+                    descriptors += "and booming noise";
+                    break;
+                default:
+                    throw new Exception("Wtf");
+            }
+            return descriptors;
         }
 
         public void ApplyEffects(Duel handler, Character s, Character t)
@@ -280,9 +349,6 @@ namespace Spelling
                             {
                                 targetActive.shields[element] += (potency / damageTypes.Count);
                             }
-                            break;
-                        case SpellType.Heal:
-                            //decide if this does something later
                             break;
                         default:
                             throw new SystemException("Wtf");
@@ -440,10 +506,6 @@ namespace Spelling
                     size++;
                     range = 0;
                     duration++;
-                    break;
-                case VerbEnum.ylmar:
-                    type = SpellType.Heal;
-                    potency++;
                     break;
                 case VerbEnum.sadem:
                     type = SpellType.Shield;
@@ -675,7 +737,6 @@ namespace Spelling
         TargetGas,
         Nova,
         Cloud,
-        Heal,
         Shield,
         TargetKill,
         Enhance,
@@ -730,7 +791,6 @@ namespace Spelling
         fuilien,
         krak,
         ilien,
-        ylmar,
         sadem,
         diestalaminya,
         turya,
