@@ -18,7 +18,7 @@ public class SpellInput : Godot.LineEdit
 			this.Text = "";
 			try {
 				((MainGame)GetParent()).EnteredSpell(spell);
-				Console.WriteLine(spell);
+				((Console)GetNode("../Console")).Print(spell);
 			} catch (IndexOutOfRangeException) {}
 		}
 	}

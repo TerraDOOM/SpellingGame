@@ -28,14 +28,14 @@ namespace Spelling {
         Character GetPlayer() {
             int highestInit = 0;
             Character curPlayer;
-            List<Character> highestCharacters = new List<Character>;
+            List<Character> highestCharacters = new List<Character>();
             foreach (Character player in duel.players) {
                 if (player.initiative > highestInit) {
                     highestInit = player.initiative;
                     highestCharacters.Clear();
                     highestCharacters.Add(player);
                 }
-                else if (player.initiative == highestInit {
+                else if (player.initiative == highestInit) {
                     highestCharacters.Add(player);
                 }
             }
@@ -60,6 +60,7 @@ namespace Spelling {
         public void InitializeSP(int playerCount) {
             rng = new Random();
             player = new Character();
+			players = new Character[playerCount];
             for (int i = 1; i < playerCount; i++) {
                 Character opponent = new Character();
                 opponent.initiative = rng.Next(1, 11);
@@ -67,7 +68,6 @@ namespace Spelling {
                 opponent.alive = true;
                 players[i] = opponent;
             }
-            players = new Character[playerCount];
             player.initiative = rng.Next(1, 11);
             player.mana = 10;
             player.alive = true;

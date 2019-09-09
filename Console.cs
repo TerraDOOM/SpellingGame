@@ -12,9 +12,9 @@ public class Console : TextEdit
     public override void _Ready()
     {
     }
-
-	public static string ReadLine() {
-        throw new NotImplementedException("ReadLine is not implemented yet");
+	
+	public void Print(String msg) {
+		this.Text += String.Format("{0}\n", msg);
 	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

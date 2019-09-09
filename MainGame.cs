@@ -14,7 +14,7 @@ public class MainGame : CanvasLayer
     public override void _Ready()
     {
 		duel = new Duel();
-		duel.Initialize();
+		duel.InitializeSP(2);
 		UpdateStats();
     }
 	
@@ -28,7 +28,9 @@ public class MainGame : CanvasLayer
 	public void EnteredSpell(String spell) {
 		duel.player.currentSpell = new Spell(((string)spell).ToLower());
 		duel.player.currentSpell.ParseWords();
-		duel.player.currentSpell.ApplyEffects(duel, duel.player, duel.opponent);
+		// TODO: FIX
+		// FIXME: fix
+		duel.player.currentSpell.ApplyEffects(duel, duel.player, duel.players[1]);
 		UpdateStats();
 	}
 

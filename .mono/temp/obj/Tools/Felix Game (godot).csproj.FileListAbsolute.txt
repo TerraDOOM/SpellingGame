@@ -1,0 +1,6 @@
+C:\Users\theodor.strom\Felix Game (godot)\.mono\temp\bin\Tools\Felix Game (godot).dll
+C:\Users\theodor.strom\Felix Game (godot)\.mono\temp\bin\Tools\Felix Game (godot).pdb
+C:\Users\theodor.strom\Felix Game (godot)\.mono\temp\obj\Tools\Felix Game (godot).csprojAssemblyReference.cache
+C:\Users\theodor.strom\Felix Game (godot)\.mono\temp\obj\Tools\Felix Game (godot).csproj.CoreCompileInputs.cache
+C:\Users\theodor.strom\Felix Game (godot)\.mono\temp\obj\Tools\Felix Game (godot).dll
+C:\Users\theodor.strom\Felix Game (godot)\.mono\temp\obj\Tools\Felix Game (godot).pdb
