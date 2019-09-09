@@ -26,7 +26,26 @@ namespace Spelling {
         }
 
         Character GetPlayer() {
-            throw new NotImplementedException("GetPlayer is unimplemented");
+            int highestInit = 0;
+            Character curPlayer;
+            List<Character> highestCharacters = new List<Character>;
+            foreach (Character player in duel.players) {
+                if (player.initiative > highestInit) {
+                    highestInit = player.initiative;
+                    highestCharacters.Clear();
+                    highestCharacters.Add(player);
+                }
+                else if (player.initiative == highestInit {
+                    highestCharacters.Add(player);
+                }
+            }
+            if (highestCharacters.Count > 0) {
+                curPlayer = duel.players[duel.rng.Next(0, highestCharacters.Count())];
+            }
+            else {
+                throw new Exception("No players in duel.players");
+            }
+            return curPlayer;
         }
 
         void runGame(Character player, Character[] opponents) {
@@ -38,19 +57,21 @@ namespace Spelling {
         public Character player;
         public Character[] players;
         List<Spell> stack = new List<Spell>();
-        public void InitializeSP() {
+        public void InitializeSP(int playerCount) {
             rng = new Random();
             player = new Character();
-            Character opponent = new Character();
-            players = new Character[2];
-            player.initiative = 1000; //rng.Next(1, 11);
+            for (int i = 1; i < playerCount; i++) {
+                Character opponent = new Character();
+                opponent.initiative = rng.Next(1, 11);
+                opponent.mana = 10;
+                opponent.alive = true;
+                players[i] = opponent;
+            }
+            players = new Character[playerCount];
+            player.initiative = rng.Next(1, 11);
             player.mana = 10;
             player.alive = true;
-            opponent.initiative = 0; //rng.Next(1, 11);
-            opponent.mana = 10;
-            opponent.alive = true;
             players[0] = player;
-            players[1] = opponent;
         }
         public void Uptick() {
             foreach (var player in players) player.UpdateCharacter();
