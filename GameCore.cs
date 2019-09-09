@@ -36,22 +36,24 @@ namespace Spelling {
     public class Duel {
         public Random rng;
         public Character player;
-        public Character opponent;
+        public Character[] players;
         List<Spell> stack = new List<Spell>();
-        public void Initialize() {
+        public void InitializeSP() {
             rng = new Random();
             player = new Character();
-            opponent = new Character();
+            Character opponent = new Character();
+            players = new Character[2];
             player.initiative = 1000; //rng.Next(1, 11);
             player.mana = 10;
             player.alive = true;
             opponent.initiative = 0; //rng.Next(1, 11);
             opponent.mana = 10;
             opponent.alive = true;
+            players[0] = player;
+            players[1] = opponent;
         }
         public void Uptick() {
-            player.UpdateCharacter();
-            opponent.UpdateCharacter();
+            foreach (var player in players) player.UpdateCharacter();
             foreach (Spell s in stack) {
                 s.ApplyEffects(this, s.stackCaster, s.stackTarget);
                 stack.Remove(s);
