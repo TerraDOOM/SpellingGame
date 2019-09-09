@@ -36,8 +36,7 @@ namespace Spelling
                         duel.opponent.initiative++;
                         break;
                     default:
-                        throw new SystemException("math ");
-                        break;
+                        throw new SystemException("math broke, cosmic rays or something idk");
                 }
             }
         }
