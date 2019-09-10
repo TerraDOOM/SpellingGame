@@ -690,10 +690,18 @@ namespace Spelling {
         public Object obj { get; set; }
 
         public Sentence(string s) {
-            var split = s.Split(null);
-            subj = new Subject(split[0]);
-            verb = new Verb(split[1]);
-            obj = new Object(split[2]);
+                var split = s.Split(null);
+                if (split.Length == 3){
+                    subj = new Subject(split[0]);
+                    verb = new Verb(split[1]);
+                    obj = new Object(split[2]);
+                }
+                else {
+                subj = new Subject("ss");
+                verb = new Verb("vv");
+                obj = new Object("oo");
+                }
+            }
         }
     }
 }
