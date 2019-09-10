@@ -246,12 +246,21 @@ namespace Spelling {
                             switch (aspectTarget) {
                                 case TargetedAspect.ManaRegen:
                                     targetActive.manaRegen = Aspect.Enhanced;
+                                    descriptiveText.AppendFormat(
+                                        "You flood your{0} with harmonic mana, enhancing the Corona Potentia, and by extension, the mana regeneration system.",
+                                        targetDescriptor);
                                     break;
                                 case TargetedAspect.Speed:
                                     targetActive.speed = Aspect.Enhanced;
+                                    descriptiveText.AppendFormat(
+                                        "You flood your{0} with harmonic mana, enhancing the muscle fibers and innate reflexes.",
+                                        targetDescriptor);
                                     break;
                                 case TargetedAspect.Senses:
                                     targetActive.senses = Aspect.Enhanced;
+                                    descriptiveText.AppendFormat(
+                                        "You flood your{0} with harmonic mana, enhancing the five senses.",
+                                        targetDescriptor);
                                     break;
                                 case TargetedAspect.None:
                                     return "";
@@ -261,12 +270,21 @@ namespace Spelling {
                             switch (aspectTarget) {
                                 case TargetedAspect.ManaRegen:
                                     targetActive.manaRegen = Aspect.Diminish;
+                                    descriptiveText.AppendFormat(
+                                        "You flood your{0} with discordant mana, inhibiting the Corona Potentia, and by extension, the mana regeneration system.",
+                                        targetDescriptor);
                                     break;
                                 case TargetedAspect.Speed:
                                     targetActive.speed = Aspect.Diminish;
+                                    descriptiveText.AppendFormat(
+                                        "You flood your{0} with discordant mana, inhibiting the muscle fibers and innate reflexes.",
+                                        targetDescriptor);
                                     break;
                                 case TargetedAspect.Senses:
                                     targetActive.senses = Aspect.Diminish;
+                                    descriptiveText.AppendFormat(
+                                        "You flood your{0} with discordant mana, inhibiting the five senses.",
+                                        targetDescriptor);
                                     break;
                                 case TargetedAspect.None:
                                     return "";
@@ -276,6 +294,9 @@ namespace Spelling {
                             foreach (DamageType element in damageTypes) {
                                 targetActive.shields[element] += (potency / damageTypes.Count);
                             }
+                            descriptiveText.AppendFormat(
+                                "You build up shields around your{0}, forming them out of {1}.",
+                                targetDescriptor, this.GenerateDescriptors(damageTypes));
                             break;
                         default:
                             throw new SystemException("Wtf");
