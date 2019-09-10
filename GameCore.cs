@@ -15,53 +15,66 @@ using System.Threading.Tasks;
 
 */
 
-namespace Spelling {
-    class Game {
+namespace Spelling
+{
+    class Game
+    {
         Duel duel;
         bool gameInProgress;
 
-        public Game() {
+        public Game()
+        {
             duel = new Duel();
             gameInProgress = true;
         }
 
-        Character GetPlayer() {
+        Character GetPlayer()
+        {
             int highestInit = 0;
             Character curPlayer;
             List<Character> highestCharacters = new List<Character>();
-            foreach (Character player in duel.players) {
-                if (player.initiative > highestInit) {
+            foreach (Character player in duel.players)
+            {
+                if (player.initiative > highestInit)
+                {
                     highestInit = player.initiative;
                     highestCharacters.Clear();
                     highestCharacters.Add(player);
                 }
-                else if (player.initiative == highestInit) {
+                else if (player.initiative == highestInit)
+                {
                     highestCharacters.Add(player);
                 }
             }
-            if (highestCharacters.Count > 0) {
+            if (highestCharacters.Count > 0)
+            {
                 curPlayer = duel.players[duel.rng.Next(0, highestCharacters.Count())];
             }
-            else {
+            else
+            {
                 throw new Exception("No players in duel.players");
             }
             return curPlayer;
         }
 
-        void runGame(Character player, Character[] opponents) {
+        void runGame(Character player, Character[] opponents)
+        {
         }
     }
 
-    public class Duel {
+    public class Duel
+    {
         public Random rng;
         public Character player;
         public Character[] players;
         List<Spell> stack = new List<Spell>();
-        public void InitializeSP(int playerCount) {
+        public void InitializeSP(int playerCount)
+        {
             rng = new Random();
             player = new Character();
-			players = new Character[playerCount];
-            for (int i = 1; i < playerCount; i++) {
+            players = new Character[playerCount];
+            for (int i = 1; i < playerCount; i++)
+            {
                 Character opponent = new Character();
                 opponent.initiative = rng.Next(1, 11);
                 opponent.mana = 10;
@@ -73,14 +86,17 @@ namespace Spelling {
             player.alive = true;
             players[0] = player;
         }
-        public void Uptick() {
+        public void Uptick()
+        {
             foreach (var player in players) player.UpdateCharacter();
-            foreach (Spell s in stack) {
+            foreach (Spell s in stack)
+            {
                 s.ApplyEffects(this, s.stackCaster, s.stackTarget);
                 stack.Remove(s);
             }
         }
-        public void Stack(Spell s, Character c, Character t) {
+        public void Stack(Spell s, Character c, Character t)
+        {
             s.stackCaster = c;
             s.stackTarget = t;
             s.duration--;
@@ -88,7 +104,8 @@ namespace Spelling {
         }
     }
 
-    public class Spell {
+    public class Spell
+    {
         public Character stackTarget;
         public Character stackCaster;
 
@@ -109,10 +126,13 @@ namespace Spelling {
         public int duration = 0;
         public bool fizzle = false;
 
-        public string GenerateDescriptors(List<DamageType> damageTypes) {
+        public string GenerateDescriptors(List<DamageType> damageTypes)
+        {
             string descriptors = "";
-            foreach (DamageType elem in damageTypes.Distinct().Skip(1)) {
-                switch (elem) {
+            foreach (DamageType elem in damageTypes.Distinct().Skip(1))
+            {
+                switch (elem)
+                {
                     case DamageType.Accursed:
                         descriptors += "accursed power, ";
                         break;
@@ -147,7 +167,8 @@ namespace Spelling {
                         throw new Exception("Wtf");
                 }
             }
-            switch (damageTypes[0]) {
+            switch (damageTypes[0])
+            {
                 case DamageType.Accursed:
                     descriptors += "and accursed power";
                     break;
@@ -184,24 +205,32 @@ namespace Spelling {
             return descriptors;
         }
 
-        public string ApplyEffects(Duel handler, Character s, Character t) {
-            if (!fizzle) {
-                for (int i = 0; i < echoes + 1; i++) {
+        public string ApplyEffects(Duel handler, Character s, Character t)
+        {
+            if (!fizzle)
+            {
+                for (int i = 0; i < echoes + 1; i++)
+                {
                     Character targetActive;
                     Character casterActive = s;
                     var descriptiveText = new StringBuilder();
                     var targetDescriptor = "";
-                    if (target == TargetType.Opponent) {
+                    if (target == TargetType.Opponent)
+                    {
                         targetActive = t;
                         targetDescriptor = " opponent";
-                    } else {
+                    }
+                    else
+                    {
                         targetActive = s;
                         targetDescriptor = "self";
                     }
-                    if (duration > 0) {
+                    if (duration > 0)
+                    {
                         handler.Stack(this, targetActive, casterActive);
                     }
-                    switch (type) {
+                    switch (type)
+                    {
                         case SpellType.Cloud:
                             targetActive.Damage(potency, damageTypes);
                             descriptiveText.AppendFormat(
@@ -243,7 +272,8 @@ namespace Spelling {
                                 $"reaching and grasping at your${targetDescriptor}");
                             break;
                         case SpellType.Enhance:
-                            switch (aspectTarget) {
+                            switch (aspectTarget)
+                            {
                                 case TargetedAspect.ManaRegen:
                                     targetActive.manaRegen = Aspect.Enhanced;
                                     descriptiveText.AppendFormat(
@@ -267,7 +297,8 @@ namespace Spelling {
                             }
                             break;
                         case SpellType.Diminish:
-                            switch (aspectTarget) {
+                            switch (aspectTarget)
+                            {
                                 case TargetedAspect.ManaRegen:
                                     targetActive.manaRegen = Aspect.Diminish;
                                     descriptiveText.AppendFormat(
@@ -291,7 +322,8 @@ namespace Spelling {
                             }
                             break;
                         case SpellType.Shield:
-                            foreach (DamageType element in damageTypes) {
+                            foreach (DamageType element in damageTypes)
+                            {
                                 targetActive.shields[element] += (potency / damageTypes.Count);
                             }
                             descriptiveText.AppendFormat(
@@ -306,24 +338,31 @@ namespace Spelling {
                     //Eventually add mechanics for the mind control spells (caster = opponent)
                 }
                 return "lmao what";
-            } else {
+            }
+            else
+            {
                 return "The spell fizzles, the words lacking in fluency,";
             }
         }
-        public Spell(string s) {
+        public Spell(string s)
+        {
             sentence = new Sentence(s);
         }
-        public void ParseWords() {
+        public void ParseWords()
+        {
             int count = sentence.subj.suffixes.Count + sentence.verb.suffixes.Count + sentence.obj.suffixes.Count;
-            foreach (Suffix suffix in sentence.subj.suffixes.FindAll(suffix => weakSuffixes.Contains(suffix))) {
+            foreach (Suffix suffix in sentence.subj.suffixes.FindAll(suffix => weakSuffixes.Contains(suffix)))
+            {
                 count -= 2;
                 time++;
             }
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++)
+            {
                 cost = cost + i;
                 time++;
             }
-            switch (sentence.obj.word) {
+            switch (sentence.obj.word)
+            {
                 case ObjectEnum.so:
                     target = TargetType.Self;
                     break;
@@ -336,7 +375,8 @@ namespace Spelling {
                 default:
                     break;
             }
-            switch (sentence.subj.word) {
+            switch (sentence.subj.word)
+            {
                 case SubjectEnum.so:
                     caster = TargetType.Self;
                     break;
@@ -347,8 +387,10 @@ namespace Spelling {
                     fizzle = true;
                     break;
             }
-            foreach (Suffix suffix in sentence.verb.suffixes) {
-                switch (suffix) {
+            foreach (Suffix suffix in sentence.verb.suffixes)
+            {
+                switch (suffix)
+                {
                     case Suffix.la:
                         echoes++;
                         break;
@@ -396,7 +438,8 @@ namespace Spelling {
                         break;
                 }
             }
-            switch (sentence.verb.word) {
+            switch (sentence.verb.word)
+            {
                 case VerbEnum.fukrak:
                     type = SpellType.TargetExplode;
                     size += 2;
@@ -444,11 +487,14 @@ namespace Spelling {
                     fizzle = true;
                     break;
             }
-            foreach (Suffix suffix in sentence.obj.suffixes) {
-                switch (suffix) {
+            foreach (Suffix suffix in sentence.obj.suffixes)
+            {
+                switch (suffix)
+                {
                     case Suffix.so:
                         target = TargetType.Self;
-                        switch (sentence.obj.word) {
+                        switch (sentence.obj.word)
+                        {
                             case ObjectEnum.erin:
                                 aspectTarget = TargetedAspect.Senses;
                                 break;
@@ -462,7 +508,8 @@ namespace Spelling {
                         break;
                     case Suffix.ya:
                         target = TargetType.Opponent;
-                        switch (sentence.obj.word) {
+                        switch (sentence.obj.word)
+                        {
                             case ObjectEnum.erin:
                                 aspectTarget = TargetedAspect.Senses;
                                 break;
@@ -483,7 +530,8 @@ namespace Spelling {
         }
     }
 
-    public class Character {
+    public class Character
+    {
         public int mana;
         public int initiative;
         public Dictionary<DamageType, int> shields;
@@ -493,17 +541,22 @@ namespace Spelling {
         public Aspect senses = Aspect.Normal;
         public Aspect speed = Aspect.Normal;
 
-        public void Damage(int damage, List<DamageType> damageTypes) {
-            foreach (DamageType elem in damageTypes) {
+        public void Damage(int damage, List<DamageType> damageTypes)
+        {
+            foreach (DamageType elem in damageTypes)
+            {
                 shields[elem] -= (damage / damageTypes.Count);
-                if (shields[elem] < 0) {
+                if (shields[elem] < 0)
+                {
                     alive = false;
                 }
             }
         }
 
-        public void UpdateCharacter() {
-            switch (speed) {
+        public void UpdateCharacter()
+        {
+            switch (speed)
+            {
                 case Aspect.Diminish:
                     initiative++;
                     break;
@@ -514,7 +567,8 @@ namespace Spelling {
                     initiative += 3;
                     break;
             }
-            switch (manaRegen) {
+            switch (manaRegen)
+            {
                 case Aspect.Diminish:
                     mana++;
                     break;
@@ -529,90 +583,115 @@ namespace Spelling {
             manaRegen = Aspect.Normal;
         }
 
-        public Character() {
+        public Character()
+        {
             shields = new Dictionary<DamageType, int>();
-            foreach (var elem in Enum.GetValues(typeof(DamageType)).Cast<DamageType>()) {
+            foreach (var elem in Enum.GetValues(typeof(DamageType)).Cast<DamageType>())
+            {
                 shields[elem] = 10;
             }
             alive = true;
         }
 
-        public void TakeTurn() {
+        public void TakeTurn()
+        {
 
         }
     }
 
-    public class Subject {
+    public class Subject
+    {
         public SubjectEnum word;
         public List<Suffix> suffixes;
 
-        public Subject(string s) {
+        public Subject(string s)
+        {
             var sArr = s.Split('\'');
             suffixes = new List<Suffix>();
-            try {
+            try
+            {
                 word = (SubjectEnum)Enum.Parse(typeof(SubjectEnum), sArr[0]);
-                foreach (string suffix in sArr.Skip(1)) {
+                foreach (string suffix in sArr.Skip(1))
+                {
                     suffixes.Add((Suffix)Enum.Parse(typeof(Suffix), suffix));
                 }
-            } catch (ArgumentException) {
+            }
+            catch (ArgumentException)
+            {
                 word = SubjectEnum.Fizzle;
             }
         }
     }
 
-    public class Verb {
+    public class Verb
+    {
         public VerbEnum word;
         public List<Suffix> suffixes;
-        public Verb(string s) {
+        public Verb(string s)
+        {
             var sArr = s.Split('\'');
             suffixes = new List<Suffix>();
-            try {
+            try
+            {
                 word = (VerbEnum)Enum.Parse(typeof(VerbEnum), sArr[0]);
-                foreach (string suffix in sArr.Skip(1)) {
+                foreach (string suffix in sArr.Skip(1))
+                {
                     suffixes.Add((Suffix)Enum.Parse(typeof(Suffix), suffix));
                 }
-            } catch {
+            }
+            catch
+            {
                 word = VerbEnum.Fizzle;
             }
         }
     }
 
-    public class Object {
+    public class Object
+    {
         public ObjectEnum word;
         public List<Suffix> suffixes;
-        public Object(string s) {
+        public Object(string s)
+        {
             var sArr = s.Split('\'');
             suffixes = new List<Suffix>();
-            try {
+            try
+            {
                 word = (ObjectEnum)Enum.Parse(typeof(ObjectEnum), sArr[0]);
-                foreach (string suffix in sArr.Skip(1)) {
+                foreach (string suffix in sArr.Skip(1))
+                {
                     suffixes.Add((Suffix)Enum.Parse(typeof(Suffix), suffix));
                 }
-            } catch {
+            }
+            catch
+            {
                 word = ObjectEnum.Fizzle;
             }
         }
     }
 
-    public enum TargetType {
+    public enum TargetType
+    {
         Self,
         Opponent,
     }
 
-    public enum Aspect {
+    public enum Aspect
+    {
         Diminish,
         Normal,
         Enhanced
     }
 
-    public enum TargetedAspect {
+    public enum TargetedAspect
+    {
         Speed,
         Senses,
         ManaRegen,
         None
     }
 
-    public enum SpellType {
+    public enum SpellType
+    {
         TargetExplode,
         TargetBolt,
         TargetGas,
@@ -624,7 +703,8 @@ namespace Spelling {
         Diminish
     }
 
-    public enum DamageType {
+    public enum DamageType
+    {
         Fire,
         Cold,
         Electricity,
@@ -637,7 +717,8 @@ namespace Spelling {
         Accursed
     }
 
-    public enum Suffix {
+    public enum Suffix
+    {
         la,
         te,
         noth,
@@ -656,13 +737,15 @@ namespace Spelling {
         ya
     }
 
-    public enum SubjectEnum {
+    public enum SubjectEnum
+    {
         so,
         ya,
         Fizzle
     }
 
-    public enum VerbEnum {
+    public enum VerbEnum
+    {
         fukrak,
         fulua,
         fuilien,
@@ -675,7 +758,8 @@ namespace Spelling {
         Fizzle
     }
 
-    public enum ObjectEnum {
+    public enum ObjectEnum
+    {
         so,
         ya,
         erin,
@@ -684,23 +768,26 @@ namespace Spelling {
         Fizzle
     }
 
-    public class Sentence {
+    public class Sentence
+    {
         public Subject subj { get; set; }
         public Verb verb { get; set; }
         public Object obj { get; set; }
 
-        public Sentence(string s) {
-                var split = s.Split(null);
-                if (split.Length == 3){
-                    subj = new Subject(split[0]);
-                    verb = new Verb(split[1]);
-                    obj = new Object(split[2]);
-                }
-                else {
+        public Sentence(string s)
+        {
+            var split = s.Split(null);
+            if (split.Length == 3)
+            {
+                subj = new Subject(split[0]);
+                verb = new Verb(split[1]);
+                obj = new Object(split[2]);
+            }
+            else
+            {
                 subj = new Subject("ss");
                 verb = new Verb("vv");
                 obj = new Object("oo");
-                }
             }
         }
     }
