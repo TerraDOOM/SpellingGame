@@ -32,19 +32,25 @@ public class GridViewport : Viewport
                 this.AddChild(floorRect);
                 floorRect.MarginLeft = i;
                 floorRect.MarginRight = i + 1;
-                floorRect.MarginTop = j + 0.8f;
+                floorRect.MarginTop = j + 0.7f;
                 floorRect.MarginBottom = j + 1;
+                floorTiles[i, j] = floorRect;
 			}
 		}
     }
 
-    void UpdateTileset(Tile[,] newTiles) {
+    public void UpdateTileset(Tile[,] newTiles) {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
                 var tile = newTiles[i,j];
                 if (tile.containsCloud) {
                     var color = tile.containedCloud.GetColour();
-                    cloudTiles[i, j].Color = new Color(color[0], color[1], color[2], 0.3f);
+                    cloudTiles[i, j].Color = new Color(0, 0, 1, 0.3f);
+                }
+
+                if (tile.containsPatch) {
+                    var color = tile.containedPath.GetColour();
+                    floorTiles[i, j].Color = new Color(color[0], color[1], color[2], 1f);
                 }
             }
         }
