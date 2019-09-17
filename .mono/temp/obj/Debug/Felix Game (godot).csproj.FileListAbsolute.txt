@@ -1,2 +1,0 @@
-C:\Users\theodor.strom\Felix Game (godot)\.mono\temp\obj\Debug\Felix Game (godot).csprojAssemblyReference.cache
-C:\Users\theodor.strom\Felix Game (godot)\.mono\temp\obj\Debug\Felix Game (godot).csproj.CoreCompileInputs.cache
