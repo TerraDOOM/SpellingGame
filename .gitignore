@@ -3,3 +3,4 @@
 logs/
 .export_presets.cfg
 .vs/
+.mono/
