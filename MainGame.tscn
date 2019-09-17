@@ -1,20 +1,33 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://MainGame.cs" type="Script" id=1]
-[ext_resource path="res://SpellInput.cs" type="Script" id=2]
-[ext_resource path="res://Console.cs" type="Script" id=3]
-[ext_resource path="res://Verdana.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Label.cs" type="Script" id=5]
+[ext_resource path="res://GridViewport.cs" type="Script" id=2]
+[ext_resource path="res://SpellInput.cs" type="Script" id=3]
+[ext_resource path="res://Console.cs" type="Script" id=4]
+[ext_resource path="res://Verdana.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Label.cs" type="Script" id=6]
 
 [sub_resource type="DynamicFont" id=1]
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
 [node name="root" type="Node"]
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 1 )
 
-[node name="Viewport" type="Viewport" parent="UI"]
+[node name="ViewportContainer" type="ViewportContainer" parent="UI"]
+margin_left = 270.0
+margin_top = 30.0
+margin_right = 810.0
+margin_bottom = 570.0
+stretch = true
+
+[node name="GridViewport" type="Viewport" parent="UI/ViewportContainer"]
+size = Vector2( 10, 10 )
+own_world = true
+handle_input_locally = false
+render_target_update_mode = 3
+script = ExtResource( 2 )
 
 [node name="SpellInput" type="LineEdit" parent="UI"]
 margin_left = 20.0
@@ -22,7 +35,10 @@ margin_top = 540.0
 margin_right = 250.0
 margin_bottom = 580.0
 placeholder_text = "Enter Spell here"
-script = ExtResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Console" type="TextEdit" parent="UI"]
 margin_left = 20.0
@@ -30,13 +46,17 @@ margin_top = 20.0
 margin_right = 250.0
 margin_bottom = 520.0
 readonly = true
-script = ExtResource( 3 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="StatWindow" type="Label" parent="UI"]
-margin_left = 950.0
+[node name="StatWindow" type="TextEdit" parent="UI"]
+margin_left = 830.0
 margin_top = 20.0
-margin_right = 1180.0
+margin_right = 1060.0
 margin_bottom = 570.0
 custom_fonts/font = SubResource( 1 )
-script = ExtResource( 5 )
+readonly = true
+script = ExtResource( 6 )
 [connection signal="text_entered" from="UI/SpellInput" to="UI/SpellInput" method="_on_SpellInput_text_entered"]

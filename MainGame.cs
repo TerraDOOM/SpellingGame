@@ -9,12 +9,14 @@ public class MainGame : CanvasLayer
     // private string b = "text";
 
 	public Duel duel;
+	public Game game;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
 		duel = new Duel();
-		duel.InitializeSP(2);
+		game = new Game();
+		duel.InitializeSP(2, game.gameboard);
 		UpdateStats();
     }
 	

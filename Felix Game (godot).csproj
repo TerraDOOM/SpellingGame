@@ -52,6 +52,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="CanvasLayer.cs" />
     <Compile Include="Console.cs" />
+    <Compile Include="GridViewport.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

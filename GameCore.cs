@@ -17,17 +17,22 @@ using System.Threading.Tasks;
 
 namespace Spelling
 {
-    class Game
+    public class Game
     {
         Duel duel;
         bool gameInProgress;
-		Tile[,] gameboard;
+		public Tile[,] gameboard;
 
         public Game()
         {
             duel = new Duel();
             gameInProgress = true;
             gameboard = new Tile[10, 10];
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    gameboard[i, j] = new Tile();
+                }
+            }
         }
 
         Character GetPlayer()
@@ -93,7 +98,7 @@ namespace Spelling
                 Character opponent;
                 do {
                     opponent = new Character(rng.Next(10), rng.Next(10));
-                } while (players.Any(s => s.posX != opponent.posX) && players.Any(s => s.posY != opponent.posY));
+                } while (players.Any(s => (s != null) ? s.posX != opponent.posX && s.posY != opponent.posY : false));
                 opponent.initiative = rng.Next(1, 11);
                 opponent.mana = 10;
                 opponent.alive = true;
@@ -148,8 +153,8 @@ namespace Spelling
         public int posY;
         public bool fizzle = false;
 
-        public int[] GetColour() {
-            int[] colour = new int[3];
+        public float[] GetColour() {
+            float[] colour = new float[3];
             colour[0] = 1;
             colour[1] = 0;
             colour[2] = 0;
@@ -257,7 +262,7 @@ namespace Spelling
                     }
                     if (duration > 0)
                     {
-                        handler.Stack(this, targetActive, casterActive);
+                        handler.Stack(this, targetActive, casterActive, 0, 0, false, false);
                     }
                     switch (type)
                     {

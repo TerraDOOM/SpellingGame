@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using Spelling;
 
-public class Label : Godot.Label
+public class Label : Godot.TextEdit
 {
     // Declare member variables here. Examples:
     // private int a = 2;
