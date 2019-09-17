@@ -148,6 +148,14 @@ namespace Spelling
         public int posY;
         public bool fizzle = false;
 
+        public int[] GetColour() {
+            int[] colour = new int[3];
+            colour[0] = 1;
+            colour[1] = 0;
+            colour[2] = 0;
+            return colour;
+        }
+
         public string GenerateDescriptors(List<DamageType> damageTypes)
         {
             string descriptors = "";
