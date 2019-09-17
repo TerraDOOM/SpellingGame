@@ -21,11 +21,13 @@ namespace Spelling
     {
         Duel duel;
         bool gameInProgress;
+		Tile[,] gameboard;
 
         public Game()
         {
             duel = new Duel();
             gameInProgress = true;
+            gameboard = new Tile[10, 10];
         }
 
         Character GetPlayer()
@@ -61,6 +63,16 @@ namespace Spelling
         {
         }
     }
+	
+	public class Tile
+	{
+		public bool containsPlayer = false;
+		public Character containedPlayer;
+		public bool containsCloud = false;
+		public Spell containedCloud;
+		public bool containsPatch = false;
+		public Spell containedPath;
+	}
 
     public class Duel
     {
@@ -68,23 +80,29 @@ namespace Spelling
         public Character player;
         public Character[] players;
         List<Spell> stack = new List<Spell>();
-        public void InitializeSP(int playerCount)
+        public void InitializeSP(int playerCount, Tile[,] gameboard)
         {
             rng = new Random();
-            player = new Character();
+            player = new Character(rng.Next(10), rng.Next(10));
             players = new Character[playerCount];
-            for (int i = 1; i < playerCount; i++)
-            {
-                Character opponent = new Character();
+            player.initiative = rng.Next(1, 11);
+            player.mana = 10;
+            player.alive = true;
+            players[0] = player;
+            for (int i = 1; i < playerCount; i++) {
+                Character opponent;
+                do {
+                    opponent = new Character(rng.Next(10), rng.Next(10));
+                } while (players.Any(s => s.posX != opponent.posX) && players.Any(s => s.posY != opponent.posY));
                 opponent.initiative = rng.Next(1, 11);
                 opponent.mana = 10;
                 opponent.alive = true;
                 players[i] = opponent;
             }
-            player.initiative = rng.Next(1, 11);
-            player.mana = 10;
-            player.alive = true;
-            players[0] = player;
+            foreach (Character player in players) {
+                gameboard[player.posX, player.posY].containedPlayer = player;
+                gameboard[player.posX, player.posY].containsPlayer = true;
+            }
         }
         public void Uptick()
         {
@@ -93,14 +111,16 @@ namespace Spelling
             {
                 s.ApplyEffects(this, s.stackCaster, s.stackTarget);
                 stack.Remove(s);
+                //Add code for upticking integration with map code
             }
         }
-        public void Stack(Spell s, Character c, Character t)
+        public void Stack(Spell s, Character c, Character t, int x, int y, bool isCloud, bool inhabitsPlayer)
         {
             s.stackCaster = c;
             s.stackTarget = t;
             s.duration--;
             stack.Add(s);
+            //Add code for stack integration working with map code
         }
     }
 
@@ -124,6 +144,8 @@ namespace Spelling
         public int size = 1;
         public int silence = 0;
         public int duration = 0;
+        public int posX;
+        public int posY;
         public bool fizzle = false;
 
         public string GenerateDescriptors(List<DamageType> damageTypes)
@@ -540,6 +562,9 @@ namespace Spelling
         public Aspect manaRegen = Aspect.Normal;
         public Aspect senses = Aspect.Normal;
         public Aspect speed = Aspect.Normal;
+		public int posX;
+		public int posY;
+        public List<Spell> containedSpells;
 
         public void Damage(int damage, List<DamageType> damageTypes)
         {
@@ -583,12 +608,15 @@ namespace Spelling
             manaRegen = Aspect.Normal;
         }
 
-        public Character()
+        public Character(int x, int y)
         {
             shields = new Dictionary<DamageType, int>();
             foreach (var elem in Enum.GetValues(typeof(DamageType)).Cast<DamageType>())
             {
                 shields[elem] = 10;
+                posX = x;
+                posY = y;
+                
             }
             alive = true;
         }
