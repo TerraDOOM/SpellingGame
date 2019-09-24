@@ -17,6 +17,11 @@ public class MainGame : CanvasLayer
 		duel = new Duel();
 		game = new Game();
 		duel.InitializeSP(2, game.gameboard);
+        game.gameboard[1,1].containsCloud = true;
+        game.gameboard[1,1].containedCloud = new Spell("So fukrak'te ya");
+        game.gameboard[1,1].containsPatch = true;
+        game.gameboard[1,1].containedPath = new Spell("So fukrak'te ya");
+        ((GridViewport)GetNode("ViewportContainer/GridViewport")).UpdateTileset(game.gameboard);
 		UpdateStats();
     }
 	
