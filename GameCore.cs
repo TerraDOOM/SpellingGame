@@ -17,6 +17,158 @@ using System.Threading.Tasks;
 
 namespace Spelling
 {
+    public class Language
+    {
+        Dictionary<Suffix, LangObject> suffixDict;
+        Dictionary<VerbEnum, LangObject> verbDict;
+        Dictionary<ObjectEnum, LangObject> objDict;
+        Dictionary<SubjectEnum, LangObject> subjDict;
+
+        public Language()
+        {
+            suffixDict = new Dictionary<Suffix, LangObject>();
+            verbDict = new Dictionary<VerbEnum, LangObject>();
+            objDict = new Dictionary<ObjectEnum, LangObject>();
+            subjDict = new Dictionary<SubjectEnum, LangObject>();
+
+            foreach (Suffix suffix) {
+                suffixDict[suffix] = new LangObject();
+            }  
+            foreach (VerbEnum verb) {
+                verbDict[verb] = new LangObject();
+            }
+            foreach (ObjectEnum obj) {
+                objDict[obj] = new LangObject();
+            }
+            foreach (SubjectEnum subj) {
+                subjDict[subj] = new LangObject();
+            }
+        }
+
+        public void InitializeLanguage()
+        {
+            subjDict[SubjectEnum.so].attributes.caster = TargetType.Self;
+            subjDict[SubjectEnum.ya].attributes.caster = TargetType.Opponent;
+            subjDict[SubjectEnum.Fizzle].attributes.fizzle = true;
+
+            verbDict[VerbEnum.diestalaminya].attributes.type = SpellType.TargetKill;
+            verbDict[VerbEnum.diestalaminya].attributes.potencyMod = 10;
+            verbDict[VerbEnum.diestalaminya].attributes.costMod = 3;
+            verbDict[VerbEnum.diestalaminya].attributes.damageType = DamageType.Accursed;
+            verbDict[VerbEnum.diestalaminya].attributes.descriptor = "accursed power";
+            verbDict[VerbEnum.turya].attributes.type = SpellType.Enhance;
+            verbDict[VerbEnum.turya].attributes.durationMod = 3;
+            verbDict[VerbEnum.turza].attributes.type = SpellType.Diminish;
+            verbDict[VerbEnum.turza].attributes.durationMod = 3;
+            verbDict[VerbEnum.sadem].attributes.type = SpellType.Shield;
+            verbDict[VerbEnum.ilien].attributes.type = SpellType.Cloud;
+            verbDict[VerbEnum.ilien].attributes.rangeMod = -999;
+            verbDict[VerbEnum.ilien].attributes.durationMod = 1;
+            verbDict[VerbEnum.ilien].attributes.sizeMod = 1;
+            verbDict[VerbEnum.krak].attributes.type = SpellType.Nova;
+            verbDict[VerbEnum.krak].attributes.sizeMod = 2;
+            verbDict[VerbEnum.krak].attributes.rangeMod = -999;
+            verbDict[VerbEnum.fuilien].attributes.type = SpellType.TargetGas;
+            verbDict[VerbEnum.fuilien].attributes.rangeMod = -1;
+            verbDict[VerbEnum.fuilien].attributes.sizeMod = 1;
+            verbDict[VerbEnum.fulua].attributes.type = SpellType.TargetBolt;
+            verbDict[VerbEnum.fulua].attributes.rangeMod = 3;
+            verbDict[VerbEnum.fukrak].attributes.type = SpellType.TargetExplode;
+            verbDict[VerbEnum.fukrak].attributes.potencyMod = 1;
+            verbDict[VerbEnum.fukrak].attributes.rangeMod = 1;
+            verbDict[VerbEnum.fukrak].attributes.costMod = 1;
+            verbDict[VerbEnum.fukrak].attributes.sizeMod = 2;
+
+            objDict[ObjectEnum.so].attributes.target = TargetType.Self;
+            objDict[ObjectEnum.ya].attributes.target = TargetType.Opponent;
+            objDict[ObjectEnum.pret].attributes.targetAspect = TargetedAspect.ManaRegen;
+            objDict[ObjectEnum.iill].attributes.targetAspect = TargetedAspect.Speed;
+            objDict[ObjectEnum.erin].attributes.targetAspect = TargetedAspect.Senses;
+            objDict[ObjectEnum.Fizzle].attributes.fizzle = true;
+
+            suffixDict[Suffix.so].attributes.caster = TargetType.Self;
+            suffixDict[Suffix.so].attributes.target = TargetType.Self;
+            suffixDict[Suffix.ya].attributes.caster = TargetType.Opponent;
+            suffixDict[Suffix.ya].attributes.target = TargetType.Opponent;
+            suffixDict[Suffix.la].attributes.echoMod = 1;
+            suffixDict[Suffix.te].attributes.potencyMod = 1;
+            suffixDict[Suffix.gen].attributes.sizeMod = 1;
+            suffixDict[Suffix.iaz].attributes.silenceMod = 3;
+            suffixDict[Suffix.noth].attributes.damageType = DamageType.Fire;
+            suffixDict[Suffix.noth].attributes.descriptor = "blazing fire";
+            suffixDict[Suffix.noz].attributes.damageType = DamageType.Cold;
+            suffixDict[Suffix.noz].attributes.descriptor = "cold vapour";
+            suffixDict[Suffix.fui].attributes.damageType = DamageType.Electricity;
+            suffixDict[Suffix.fui].attributes.descriptor = "crackling air";
+            suffixDict[Suffix.iai].attributes.damageType = DamageType.Sonic;
+            suffixDict[Suffix.iai].attributes.descriptor = "booming noise";
+            suffixDict[Suffix.nig].attributes.damageType = DamageType.Profane;
+            suffixDict[Suffix.nig].attributes.descriptor = "profane energy";
+            suffixDict[Suffix.wis].attributes.damageType = DamageType.Sacred;
+            suffixDict[Suffix.wis].attributes.descriptor = "sacred energy";
+            suffixDict[Suffix.kyf].attributes.damageType = DamageType.Acid;
+            suffixDict[Suffix.kyf].attributes.descriptor = "acidic gas";
+            suffixDict[Suffix.cek].attributes.damageType = DamageType.Physical;
+            suffixDict[Suffix.cek].attributes.descriptor = "bludgeoning force";
+            suffixDict[Suffix.laz].attributes.echoMod = -1;
+            suffixDict[Suffix.tez].attributes.potencyMod = -1;
+            suffixDict[Suffix.gez].attributes.sizeMod = -1;
+        }
+    }
+
+    public class LangObject
+    {
+        public SpellAttributes attributes;
+
+        public LangObject()
+        {
+            attributes = new SpellAttributes(true);
+        }
+    }
+
+    public struct SpellAttributes
+    {
+        public SpellType type;
+        public TargetType caster;
+        public TargetType target;
+        public TargetedAspect targetAspect;
+
+        public int potencyMod;
+        public int sizeMod;
+        public int rangeMod;
+        public int costMod;
+        public int timeMod;
+        public int echoMod;
+        public int silenceMod;
+        public int durationMod;
+        public bool weak;
+        public bool fizzle;
+        public string descriptor;
+        public DamageType damageType;
+
+        public SpellAttributes(bool goFuckYourself)
+        {
+            type = SpellType.Shield;
+            caster = TargetType.Self;
+            target = TargetType.Opponent;
+            targetAspect = TargetedAspect.None;
+
+            potencyMod = 0;
+            sizeMod = 0;
+            rangeMod = 0;
+            costMod = 0;
+            timeMod = 0;
+            echoMod = 0;
+            silenceMod = 0;
+            durationMod = 0;
+            weak = false;
+            fizzle = false;
+            descriptor = "";
+            damageType = DamageType.Force;
+        }
+        //note to self, add Tileset integration
+    }
+
     public class Game
     {
         Duel duel;
@@ -42,7 +194,7 @@ namespace Spelling
             List<Character> highestCharacters = new List<Character>();
             foreach (Character player in duel.players)
             {
-                if (player.initiative > highestInit)
+                if (player.initiative > highestInit) 
                 {
                     highestInit = player.initiative;
                     highestCharacters.Clear();
@@ -772,6 +924,7 @@ namespace Spelling
         nig,
         wis,
         kyf,
+        cek,
         iaz,
         gez,
         so,
