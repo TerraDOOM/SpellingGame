@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -240,6 +241,17 @@ namespace Spelling
         public void InitializeSP(int playerCount, Tile[,] gameboard)
         {
             rng = new Random();
+            var coordinates = new HashSet<(int, int)>();
+            for (int i = 0; i < playerCount; i++) {
+                var coordinate = (rng.Next(10), rng.Next(10));
+                if (!coordinates.Contains(coordinate)) coordinates.Add(coordinate);
+                else {
+                    i--;
+                    continue;
+                }
+            }
+            Trace.Assert(coordinates.Count == playerCount);
+
             player = new Character(rng.Next(10), rng.Next(10));
             players = new Character[playerCount];
             player.initiative = rng.Next(1, 11);

@@ -12,9 +12,16 @@ public class GridViewport : Viewport
 
     ColorRect[,] cloudTiles;
     ColorRect[,] floorTiles;
+    Texture playerTexture;
+    TextureRect[,] playerSprites;
+    int scaleFactor;
 
     public override void _Ready()
     {
+        scaleFactor = (int)(this.Size.x / 10.0);
+        
+        playerSprites = new TextureRect[10,10];
+        playerTexture = (Texture)GD.Load("res://felix-sprite-large.png");
         cloudTiles = new ColorRect[10, 10];
         floorTiles = new ColorRect[10, 10];
         for (int i = 0; i < 10; i++) {
@@ -22,18 +29,18 @@ public class GridViewport : Viewport
 				var rect = new ColorRect();
                 rect.Color = new Color(0, 0, 0, 0);
                 this.AddChild(rect);
-                rect.MarginLeft = i;
-                rect.MarginRight = i + 1;
-                rect.MarginTop = j;
-                rect.MarginBottom = j + 1;
+                rect.MarginLeft = i * scaleFactor;
+                rect.MarginRight = i * scaleFactor + scaleFactor;
+                rect.MarginTop = j * scaleFactor;
+                rect.MarginBottom = j * scaleFactor + scaleFactor;
                 cloudTiles[i, j] = rect;
                 var floorRect = new ColorRect();
                 floorRect.Color = new Color(0, 0, 0, 1);
                 this.AddChild(floorRect);
-                floorRect.MarginLeft = i;
-                floorRect.MarginRight = i + 1;
-                floorRect.MarginTop = j + 0.7f;
-                floorRect.MarginBottom = j + 1;
+                floorRect.MarginLeft = i * scaleFactor;
+                floorRect.MarginRight = i * scaleFactor + scaleFactor;
+                floorRect.MarginTop = (j * scaleFactor) + (0.7f * scaleFactor);
+                floorRect.MarginBottom = (j * scaleFactor) + scaleFactor;
                 floorTiles[i, j] = floorRect;
 			}
 		}
@@ -51,6 +58,20 @@ public class GridViewport : Viewport
                 if (tile.containsPatch) {
                     var color = tile.containedPath.GetColour();
                     floorTiles[i, j].Color = new Color(color[0], color[1], color[2], 1f);
+                }
+
+                if (tile.containsPlayer) {
+                    if (playerSprites[i, j] == null) {
+                        var textureRect = new TextureRect();
+                        textureRect.SetStretchMode(TextureRect.StretchModeEnum.Scale);
+                        textureRect.SetExpand(true);
+                        textureRect.Texture = playerTexture;
+                        textureRect.MarginLeft = i * scaleFactor;
+                        textureRect.MarginRight = i * scaleFactor + 0.9f * scaleFactor;
+                        textureRect.MarginTop = j * scaleFactor;
+                        textureRect.MarginBottom = j * scaleFactor + 0.7f * scaleFactor;
+                        AddChild(textureRect);
+                    }
                 }
             }
         }
