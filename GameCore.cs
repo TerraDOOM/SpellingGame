@@ -32,16 +32,16 @@ namespace Spelling
             objDict = new Dictionary<ObjectEnum, LangObject>();
             subjDict = new Dictionary<SubjectEnum, LangObject>();
 
-            foreach (Suffix suffix) {
+            foreach (var suffix in Enum.GetValues(typeof(Suffix)).Cast<Suffix>()) {
                 suffixDict[suffix] = new LangObject();
             }  
-            foreach (VerbEnum verb) {
+            foreach (var verb in Enum.GetValues(typeof(VerbEnum)).Cast<VerbEnum>()) {
                 verbDict[verb] = new LangObject();
             }
-            foreach (ObjectEnum obj) {
+            foreach (var obj in Enum.GetValues(typeof(ObjectEnum)).Cast<ObjectEnum>()) {
                 objDict[obj] = new LangObject();
             }
-            foreach (SubjectEnum subj) {
+            foreach (var subj in Enum.GetValues(typeof(SubjectEnum)).Cast<SubjectEnum>()) {
                 subjDict[subj] = new LangObject();
             }
         }
